@@ -14,6 +14,7 @@ router.post('/validate-captcha', express.json(), (req, res) => {
 
     const isValid = validateCaptchaInstance.execute(ip, answer);
     if (isValid) {
+        //reset IP Count back to Zero
         db.updateRateLimitToZero(req,res);
         return res.status(200).json({ message: 'Captcha validated successfully' });
     }
@@ -23,7 +24,8 @@ router.post('/validate-captcha', express.json(), (req, res) => {
 //Route to Generate Captcha
 router.get('/generate-captcha', (req, res) => {
     const captchaValue = GenerateCaptcha.execute(req.ip);
-    res.status(200).json({ captchaValue: captchaValue });
+    res.render("captchaPage", {captchaValue: captchaValue.value});
+  // res.status(200).json({ captchaValue: captchaValue });
 });
 
 module.exports = router;

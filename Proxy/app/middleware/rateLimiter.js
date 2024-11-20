@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 // Config file for Express-Rate-Limit Paket
 const rateLimiter = (handler) =>
     rateLimit({
+        skip:(req) => req.url === "/captcha" || req.url === "/captcha/generate-captcha" ||  req.url === "/captcha/validate-captcha"||  req.url === "/favicon.ico"  ,
         keyGenerator: (req) => req.ip, // Use the IP address as the key
         windowMs: 2 * 60 * 1000, // 2min Time Frame for how long the request is Valid
         limit: process.env.REQUEST_LIMIT, // Max Request Amount

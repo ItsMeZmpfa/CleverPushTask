@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+    
+
+  </head>
+
+
+  <body>
+      <h1>Too many Request</h1>
+      <h2>Do a quick Captcha Challange to Continue</h2>
+      <p>Captcha Value:<%= captchaValue %> </p>
+      <input type="text" id="searchTxt" required minlength="6" maxlength="6" size="10" />
+      <button id="confirm-btn">Confirm</button>
+    <script>
+      const button = document.getElementById("confirm-btn");
+
+      button.addEventListener("click", function() {
+        console.log('hit');
+        fetch("http://localhost:5050/captcha/validate-captcha", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    answer: document.getElementById('searchTxt').value,
+  }),
+
+})
+  .then((response) => response.json())
+  .then((data) => window.location.replace("http://localhost:5050"))
+  .catch((error) => console.error("Error:", error));
+      }
+
+);
+
+    </script>
+  </body>
+
+</html>

@@ -6,21 +6,15 @@ const GenerateCaptcha = require('../core/usecases/GenerateCaptcha');
 const app = express();
 
 // Set Engine
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
+app.set('view engine', 'ejs');
 
 // Routen
 app.use('/captcha', captchaRoutes);
 
 // Proxy-Middleware for RateLimiter
-app.use(rateLimiter((req, res) => {
-    //Return a handler
-    //Generate Captcha Value and send result
-    const captchaValue = GenerateCaptcha.execute(req.ip);
-    res.status(200).json({
-        captchaValue: captchaValue.value,
-    });
+app.use(rateLimiter((req, res,next) => {
+    //redirect To Captcha Page
+    res.redirect("captcha/generate-captcha");
 }));
 
 //Proxy Handler to Forward Request to Frontend

@@ -8,11 +8,10 @@ class GenerateCaptcha {
     }
 
     execute(ip) {
-        const captcha = CaptchaService.generateCaptcha();
-        const challenge = new CaptchaChallenge(captcha.JPEGStream,captcha.value, Date.now());
         
+        const captcha = CaptchaService.generateCaptcha();
+        const challenge = new CaptchaChallenge(captcha.JPEGStream,captcha.value, Date.now());     
         this.captchaChallenges.set(ip, challenge);
-
         return challenge;
     }
 
